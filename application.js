@@ -36,7 +36,7 @@ function opening() {
             ],
             })
         .then((answer) => {
-            switch (answer.userAction) {
+            switch (answer.toDo) {
                 case "View All Departments":
                 viewDepartments();
                 break;
@@ -84,7 +84,7 @@ function opening() {
     function viewRoles() {
         const sql = "SELECT * FROM roles";
         connection.query(sql, function(err, res) {
-            if (err) throw err;
+            // if (err) throw err;
             console.table(res, "Here are all the roles!");
             opening();
         });
@@ -93,7 +93,7 @@ function opening() {
     function viewEmployees() {
         const sql = "SELECT * FROM employee";
         connection.query(sql, function(err, res) {
-            if (err) throw err;
+            // if (err) throw err;
             console.table(res, "Here are all the employees!");
             opening();
         });
@@ -112,7 +112,7 @@ function opening() {
             "INSERT INTO department(name) VALUE(?)",
             [final.deptName],
             function(err, res) {
-                if (err) throw err;
+                // if (err) throw err;
                 console.table(res, "Department added!");
                 opening();
             },
@@ -143,7 +143,7 @@ function opening() {
                 "INSERT INTO roles(title, salary, department_id) VALUE(?, ?, ?)",
                 [final.roleName, final.salary, final.id],
                 function(err, res) {
-                    if (err) throw err;
+                    // if (err) throw err;
                     console.table(res, "Role added!");
                     opening();
                 }
@@ -165,12 +165,12 @@ function opening() {
             },
             {
                 type: "input",
-                message: "What is the employee's role?",
+                message: "What is the employee's role ID?",
                 name: "roleID"
             },
             {
                 type: "input",
-                message: "Who is the employee's manager?",
+                message: "What is the employee's manager ID?",
                 name: "managerID"
             }
         ])
@@ -179,7 +179,7 @@ function opening() {
                 "INSERT INTO employee(first_name, last_name, roles_id, manager_id) VALUE(?, ?, ?, ?)",
                 [final.fName, final.lName, final.roleID, final.managerID],
                 function(err, res) {
-                    if (err) throw err;
+                    // if (err) throw err;
                     console.table(res, "Employee added!");
                     opening();
                 }
@@ -194,14 +194,14 @@ function opening() {
           err,
           res
         ){
-          if (err) throw err;
+        //   if (err) throw err;
           for (i = 0; i < res.length; i++) {
-            roleArray.push(res[i].title);
+            roleArr.push(res[i].title);
           };
           connection.query(
-            "SELECT employee.id, concat(employee.first_name, employee.last_name) AS Employee FROM employee ORDER BY employee ASC",
+            "SELECT employee.id, concat(employee.last_name) AS Employee FROM employee ORDER BY employee ASC",
             function (err, res) {
-              if (err) throw err;
+            //   if (err) throw err;
               for (i = 0; i < res.length; i++) {
                 employeeArr.push(res[i].Employee);
               };
@@ -222,10 +222,10 @@ function opening() {
                 ])
                 .then((final) => {
                   connection.query(
-                    `UPDATE employee SET roles_id = ${final.role} WHERE id = ${final.employee}`
+                    `UPDATE employee SET roles_id = ${final.role} WHERE id = ${final.employee}`,
                   );
                 })
-                .catch((err) => console.log(err));
+                // .catch((err) => console.log(err));
             }
           );
         });
